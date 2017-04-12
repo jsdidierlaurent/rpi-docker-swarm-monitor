@@ -3,4 +3,4 @@ run:
 stop:
 	@docker stack rm monitor
 init-influxdb:
-	@docker exec `docker ps | grep -i influx | awk '{print $1}'` influx -execute 'CREATE DATABASE cadvisor'
+	@chmod +x ./scripts/init-influxdb.sh ; ./scripts/init-influxdb.sh
