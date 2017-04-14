@@ -5,6 +5,7 @@ services:
     image: jsdidierlaurent/rpi-influxdb
     volumes:
       - influx-db:/var/lib/influxdb
+      - influx-cgroup:/sys/fs/cgroup
     deploy:
       replicas: 1
       placement:
@@ -19,6 +20,7 @@ services:
       - grafana-db:/var/lib/grafana
       - grafana-log:/var/log/grafana
       - grafana-conf:/etc/grafana
+      - grafana-cgroup:/sys/fs/cgroup
     depends_on:
       - influx
     deploy:
@@ -44,9 +46,13 @@ services:
 volumes:
   influx-db:
     driver: local
+  influx-cgroup:
+    driver: local
   grafana-db:
     driver: local  
   grafana-log:
     driver: local
   grafana-conf:
+    driver: local
+  grafana-cgroup:
     driver: local
