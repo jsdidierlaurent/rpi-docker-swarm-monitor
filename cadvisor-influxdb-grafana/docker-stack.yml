@@ -27,7 +27,7 @@ services:
         constraints:
           - node.role == manager
 
-  cadvisor-rpi:
+  cadvisor:
     image: niplodim/cadvisor-rpi
     hostname: '{{.Node.ID}}'
     command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influx:8086
@@ -40,26 +40,6 @@ services:
       - influx
     deploy:
       mode: global
-      placement:
-        constraints:
-          - node.labels.arch == arm
-
-  cadvisor:
-    image: google/cadvisor
-    hostname: '{{.Node.ID}}'
-    command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influx:8086
-    volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
-    depends_on:
-      - influx
-    deploy:
-      mode: global
-      placement:
-        constraints:
-          - node.labels.arch == amd
 
 volumes:
   influx-db:
